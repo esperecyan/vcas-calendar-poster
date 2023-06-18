@@ -7,6 +7,9 @@ import * as core from '@actions/core';
 import * as google from './google.js';
 import * as calendar from './calendar.js';
 
+const POSTER_WIDTH = 1130;
+const POSTER_HEIGHT = 1600;
+
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const rootPath = path.join(dirname, '../');
 const pagesFolderPath = path.join(rootPath, '_site/');
@@ -171,7 +174,9 @@ if (updated) {
 		// ローカルデバッグで、すでにフォルダが存在する場合
 	}
 
-	await fs.writeFile(path.join(pagesFolderPath, 'v4.png'), c.toBuffer('image/png'));
+	const outputCanvas = canvas.createCanvas(POSTER_WIDTH, POSTER_HEIGHT);
+	outputCanvas.getContext('2d').drawImage(c, 0, 0, outputCanvas.width, outputCanvas.height);
+	await fs.writeFile(path.join(pagesFolderPath, 'v4.png'), outputCanvas.toBuffer('image/png'));
 }
 
 core.setOutput('updated', updated);
