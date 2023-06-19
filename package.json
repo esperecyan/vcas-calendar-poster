@@ -9,7 +9,8 @@
 	},
 	"scripts": {
 		"license": "license-checker --production --onlyAllow Apache-2.0;BSD*;BSD-2-Clause;BSD-3-Clause;ISC;MIT",
-		"build": "node --require dotenv/config ./actions/build.js"
+		"build": "node --require dotenv/config ./actions/build.js",
+		"deploy": "node --require dotenv/config ./actions/deploy-to-google-drive.js"
 	},
 	"dependencies": {
 		"@actions/core": "^1.10.0",

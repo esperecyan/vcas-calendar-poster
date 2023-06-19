@@ -18,7 +18,7 @@ export function getAuth()
 	return new calendar.auth.GoogleAuth({
 		scopes: [
 			'https://www.googleapis.com/auth/calendar.events',
-			'https://www.googleapis.com/auth/drive.readonly',
+			'https://www.googleapis.com/auth/drive',
 		],
 		credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_SECRET_KEY),
 	});
@@ -67,6 +67,19 @@ function hashMD5(file)
 	const hash = crypto.createHash('md5');
 	hash.update(file);
 	return hash.digest('hex');
+}
+
+/**
+ * Googleドライブの単一ファイルを更新します。
+ * @param {calendar.auth.GoogleAuth} auth
+ * @param {string} fileId
+ * @param {string} mimeType
+ * @param {import('node:stream').Readable} stream
+ * @returns {Promise.<void>}
+ */
+export async function putFile(auth, fileId, mimeType, stream)
+{
+	await drive.drive({ version: 'v3', auth }).files.update({ fileId, media: { mimeType, body: stream } });
 }
 
 /**

@@ -94,3 +94,95 @@ jobs:
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v2
+
+    deploy-to-github-for-old-versions:
+        name: バージョン1〜3のURL向けに https://github.com/esperecyan/esperecyan.github.io/tree/master を更新
+        needs: build
+        if: ${{ needs.build.outputs.updated == 'true' }}
+
+        timeout-minutes: 1
+        permissions: { }
+        runs-on: ubuntu-22.04
+        steps:
+            - name: FFmpegのインストール
+              uses: FedericoCarboni/setup-ffmpeg@583042d32dd1cabb8bd09df03bde06080da5c87c #v2
+
+            - name: 変換元データの取得
+              uses: actions/download-artifact@v3
+              with:
+                name: github-pages
+                path: ./_site/
+            - run: tar --extract --file=./_site/artifact.tar --directory=./_site/
+
+            - name: esperecyan/esperecyan.github.io の master ブランチをチェックアウト
+              uses: actions/checkout@v3
+              with:
+                path: ./esperecyan.github.io/
+                repository: esperecyan/esperecyan.github.io
+                ref: master
+
+            - name: バージョン1向けにコピー
+              run: cp ./_site/v4.png ./esperecyan.github.io/vcas-calendar.png
+
+            - name: バージョン2 (SDK2/SDK3) 向けの動画を生成
+              run: ffmpeg -y -framerate 60 -loop 1 -t 0.24 -i ./esperecyan.github.io/vcas-calendar.png -vcodec libx264 -pix_fmt yuv420p -r 60 ./esperecyan.github.io/vcas-calendar.mp4
+
+            - name: バージョン1 (SDK2) の Quest 向けに、日時・イベント名部分を切り出し、256色 (8bit) へ減色して保存
+              run: ffmpeg -y -i ./esperecyan.github.io/vcas-calendar.png -update 1 -vf crop=1084:724:26:739,split[i],palettegen=reserve_transparent=0,[i]paletteuse ./esperecyan.github.io/vcas-calendar-part.png
+
+            - run: ls -l ./esperecyan.github.io
+
+            - name: https://github.com/esperecyan/esperecyan.github.io/tree/master へ GitHub Pages として Commit & Push
+              uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847 # v3.9.3
+              with:
+                deploy_key: ${{ secrets.ESPERECYAN_GITHUB_IO_DEPLOY_KEY }}
+                external_repository: esperecyan/esperecyan.github.io
+                publish_branch: master
+                publish_dir: ./esperecyan.github.io/
+                force_orphan: true
+
+    deploy-to-google-drive-for-old-versions:
+        name: バージョン1〜2のURL向けにGoogleドライブを更新
+        needs: deploy-to-github-for-old-versions
+
+        timeout-minutes: 2
+        permissions: { }
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v3
+            - name: esperecyan/esperecyan.github.io の master ブランチをチェックアウト
+              uses: actions/checkout@v3
+              with:
+                path: ./esperecyan.github.io/
+                repository: esperecyan/esperecyan.github.io
+                ref: master
+
+            - uses: actions/setup-node@v3
+              with:
+                node-version: '18'
+
+            # https://docs.github.com/ja/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
+            - name: Cache node modules
+              id: cache-npm
+              uses: actions/cache@v3
+              env:
+                cache-name: cache-node-modules
+              with:
+                # npm cache files are stored in `~/.npm` on Linux/macOS
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                restore-keys: |
+                    ${{ runner.os }}-build-${{ env.cache-name }}-
+                    ${{ runner.os }}-build-
+                    ${{ runner.os }}-
+
+            - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+              name: List the state of node modules
+              continue-on-error: true
+              run: npm list
+
+            - run: npm ci
+            - name: Googleドライブへコピー
+              run: npm run deploy
+              env:
+                GOOGLE_SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_SECRET_KEY }}
