@@ -4,6 +4,20 @@
 	"type": "module",
 	"devDependencies": {
 		"@esperecyan/eslint-config": "^2.6.0",
-		"eslint": "^8.42.0"
+		"eslint": "^8.42.0",
+		"license-checker": "^25.0.1"
+	},
+	"scripts": {
+		"license": "license-checker --production --onlyAllow Apache-2.0;BSD*;BSD-2-Clause;BSD-3-Clause;ISC;MIT",
+		"build": "node --require dotenv/config ./actions/build.js"
+	},
+	"dependencies": {
+		"@actions/core": "^1.10.0",
+		"@googleapis/calendar": "^6.0.0",
+		"@googleapis/drive": "^5.1.0",
+		"@napi-rs/canvas": "^0.1.41",
+		"date-fns": "^2.30.0",
+		"date-fns-tz": "^2.0.0",
+		"dotenv": "^16.1.4"
 	}
 }

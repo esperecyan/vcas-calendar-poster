@@ -1,0 +1,96 @@
+on:
+    schedule:
+        - cron: 9 * * * *
+    workflow_dispatch:
+
+# 同じワークフローが進行中の場合、それを取り消す
+concurrency:
+    group: ${{ github.workflow }}
+    cancel-in-progress: true
+
+jobs:
+    build:
+        timeout-minutes: 2
+        permissions:
+            contents: write
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                submodules: 'true'
+
+            - name: メインブランチへ60日間コミットがないと、スケジュールされたワークフローが停止するのを防止
+              # https://docs.github.com/actions/managing-workflow-runs/disabling-and-enabling-a-workflow
+              uses: gautamkrishnar/keepalive-workflow@790c7f09285a59b09bb578c85e271c6ff2af97c4 #v1.1.0
+
+            - name: 更新チェック用のキャッシュデータを取得
+              uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 #v2.27.0
+              with:
+                name: cache
+                path: ./cache/
+                check_artifacts: 'true'
+                if_no_artifact_found: warn
+
+            - uses: actions/setup-node@v3
+              with:
+                node-version: '18'
+
+            # https://docs.github.com/ja/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
+            - name: Cache node modules
+              id: cache-npm
+              uses: actions/cache@v3
+              env:
+                cache-name: cache-node-modules
+              with:
+                # npm cache files are stored in `~/.npm` on Linux/macOS
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                restore-keys: |
+                    ${{ runner.os }}-build-${{ env.cache-name }}-
+                    ${{ runner.os }}-build-
+                    ${{ runner.os }}-
+
+            - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+              name: List the state of node modules
+              continue-on-error: true
+              run: npm list
+
+            - run: npm ci
+            - id: build
+              run: npm run build
+              env:
+                GOOGLE_SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_SECRET_KEY }}
+
+            - name: 更新チェック用のキャッシュデータを保持
+              if: ${{ steps.build.outputs.updated == 'true'  }}
+              uses: actions/upload-artifact@v3
+              with:
+                name: cache
+                path: ./cache/
+
+            - name: Upload artifact
+              if: ${{ steps.build.outputs.updated == 'true'  }}
+              uses: actions/upload-pages-artifact@v1
+              with:
+                path: ./_site
+
+        outputs:
+            updated: ${{ steps.build.outputs.updated }}
+
+    deploy:
+        needs: build
+        if: ${{ needs.build.outputs.updated == 'true' }}
+
+        timeout-minutes: 1
+        permissions:
+            pages: write
+            id-token: write
+        runs-on: ubuntu-22.04
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v2

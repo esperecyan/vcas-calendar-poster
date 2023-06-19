@@ -1,25 +1,38 @@
-The MIT License (MIT)
-=====================
+バーチャルキャストイベントポスターカレンダーは、坪倉輝明さんの [VRChatイベントカレンダーPrefab] のアイデア、デザインを基にして100の人が作成しました。
 
-© 2021 100の人
+本リポジトリ内のコードは、([CC-BY-4.0] OR [MIT]) のデュアルライセンスです。
 
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the “Software”), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
+© 2023 100の人  
+Copyright (C) 2002-2014 M+ FONTS PROJECT  
+© 2014-2022 自家製フォント工房  
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+GitHub Pagesへ出力している画像も同じライセンスですが、追加の著作者表記が含まれます。
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+[VRChatイベントカレンダーPrefab]: https://tsubokulab.booth.pm/items/1223535
+[CC-BY-4.0]: https://creativecommons.org/licenses/by/4.0/deed.ja
+[MIT]: https://spdx.org/licenses/MIT.html
+
+/rounded-mplus
+==============
+本ディレクトリ内のフォントは、M+ FONTS LICENSE でライセンスされています。
+
+Copyright (C) 2002-2014 M+ FONTS PROJECT
+© 2014-2022 自家製フォント工房
+
+http://jikasei.me/font/rounded-mplus/about.html#_10
+
+/noto-emoji
+===========
+本サブモジュール内は Apache-2.0、フォントは OFL-1.1 でライセンスされています。
+
+https://github.com/googlefonts/noto-emoji/tree/v2.038#license
+
+依存パッケージ
+==============
+npm の dependencies 内のパッケージは、次のいずれかでライセンスされています。
+
+- [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)
+- [BSD-2-Clause](https://spdx.org/licenses/BSD-2-Clause.html)
+- [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html)
+- [ISC](https://spdx.org/licenses/ISC.html)
+- [MIT](https://spdx.org/licenses/MIT.html)

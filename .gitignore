@@ -1,1 +1,6 @@
 /node_modules/
+
+# ローカルデバッグ用
+/.env
+/_site/
+/cache/
