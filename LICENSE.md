@@ -1,6 +1,10 @@
 バーチャルキャストイベントポスターカレンダーは、坪倉輝明さんの [VRChatイベントカレンダーPrefab] のアイデア、デザインを基にして100の人が作成しました。
 
-本リポジトリ内のコードは、([CC-BY-4.0] OR [MIT]) のデュアルライセンスです。
+
+/noto-emoji/NotoColorEmoji.ttf は、OFL-1.1 でライセンスされています。  
+https://github.com/googlefonts/noto-emoji/blob/v2.038/fonts/LICENSE
+
+その他の本リポジトリ内のコードは、([CC-BY-4.0] OR [MIT]) のデュアルライセンスです。
 
 © 2023 100の人  
 Copyright (C) 2002-2014 M+ FONTS PROJECT  
@@ -20,12 +24,6 @@ Copyright (C) 2002-2014 M+ FONTS PROJECT
 © 2014-2022 自家製フォント工房
 
 http://jikasei.me/font/rounded-mplus/about.html#_10
-
-/noto-emoji
-===========
-本サブモジュール内は Apache-2.0、フォントは OFL-1.1 でライセンスされています。
-
-https://github.com/googlefonts/noto-emoji/tree/v2.038#license
 
 依存パッケージ
 ==============

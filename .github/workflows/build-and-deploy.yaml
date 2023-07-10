@@ -16,8 +16,6 @@ jobs:
         runs-on: ubuntu-22.04
         steps:
             - uses: actions/checkout@v3
-              with:
-                submodules: 'true'
 
             - name: メインブランチへ60日間コミットがないと、スケジュールされたワークフローが停止するのを防止
               # https://docs.github.com/actions/managing-workflow-runs/disabling-and-enabling-a-workflow

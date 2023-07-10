@@ -48,7 +48,7 @@ if (!updated) {
 if (updated) {
 	canvas.GlobalFonts
 		.registerFromPath(path.join(dirname, '../rounded-mplus/rounded-mplus-1p-heavy.ttf'), 'Rounded M+');
-	canvas.GlobalFonts.registerFromPath(path.join(dirname, '../noto-emoji/fonts/NotoColorEmoji.ttf'), 'Noto Emoji');
+	canvas.GlobalFonts.registerFromPath(path.join(dirname, '../noto-emoji/NotoColorEmoji.ttf'), 'Noto Emoji');
 	const FONT_FAMILY = '"Rounded M+", "Noto Emoji"';
 
 	const baseImage = await canvas.loadImage(path.join(dirname, './template-base.png'));
