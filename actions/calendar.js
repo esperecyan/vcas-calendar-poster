@@ -43,7 +43,7 @@ export async function fetchWeeklyEventDateTitlesPairs(auth)
 			const startTimestamp = new Date(event.start.dateTime).getTime();
 			const endTimestamp = new Date(event.end.dateTime).getTime();
 			return startTimestamp < currentDateTimestamp
-				? endTimestamp >= currentDateTimestamp // 前日以前に開始したイベント
+				? endTimestamp > currentDateTimestamp // 前日以前に開始したイベント
 				: startTimestamp < nextDateTimestamp;
 		}).sort((a, b) => new Date(a.start.dateTime).getTime() - new Date(b.start.dateTime).getTime())) {
 			titles.push((new Date(event.start.dateTime).getTime() < currentDateTimestamp
