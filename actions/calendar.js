@@ -40,15 +40,20 @@ export async function fetchWeeklyEventDateTitlesPairs(auth)
 			if (eventIds.includes(event.id)) {
 				return false;
 			}
-			const startTimestamp = new Date(event.start.dateTime).getTime();
-			const endTimestamp = new Date(event.end.dateTime).getTime();
+			event.startDate = event.start.dateTime
+				? new Date(event.start.dateTime)
+				: tz.toDate(event.start.date, event.start.timeZone);
+			const startTimestamp = event.startDate.getTime();
+			const endTimestamp = (event.end.dateTime
+				? new Date(event.end.dateTime)
+				: tz.toDate(event.end.data, event.end.timeZone)).getTime();
 			return startTimestamp < currentDateTimestamp
 				? endTimestamp > currentDateTimestamp // 前日以前に開始したイベント
 				: startTimestamp < nextDateTimestamp;
-		}).sort((a, b) => new Date(a.start.dateTime).getTime() - new Date(b.start.dateTime).getTime())) {
-			titles.push((new Date(event.start.dateTime).getTime() < currentDateTimestamp
+		}).sort((a, b) => a.startDate.getTime() - b.startDate.getTime())) {
+			titles.push((event.startDate.getTime() < currentDateTimestamp
 				? '       ↳'
-				: TIME_FORMAT.format(new Date(event.start.dateTime)))
+				: TIME_FORMAT.format(event.startDate))
 				+ ' ' + event.summary);
 			eventIds.push(event.id);
 		}
