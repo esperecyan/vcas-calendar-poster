@@ -79,7 +79,7 @@ jobs:
         needs: build
         if: ${{ needs.build.outputs.updated == 'true' }}
 
-        timeout-minutes: 1
+        timeout-minutes: 2
         permissions:
             pages: write
             id-token: write
