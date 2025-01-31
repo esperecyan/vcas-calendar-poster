@@ -14,11 +14,11 @@
 	},
 	"dependencies": {
 		"@actions/core": "^1.10.0",
-		"@googleapis/calendar": "^6.0.0",
-		"@googleapis/drive": "^5.1.0",
+		"@googleapis/calendar": "^9.7.9",
+		"@googleapis/drive": "^8.14.0",
 		"@napi-rs/canvas": "^0.1.41",
-		"date-fns": "^2.30.0",
-		"date-fns-tz": "^2.0.0",
+		"date-fns": "^4.1.0",
+		"date-fns-tz": "^3.2.0",
 		"dotenv": "^16.1.4"
 	}
 }

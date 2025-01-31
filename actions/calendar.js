@@ -1,4 +1,4 @@
-import date from 'date-fns';
+import * as date from 'date-fns';
 import * as tz from 'date-fns-tz';
 import calendar from '@googleapis/calendar';
 
@@ -20,7 +20,7 @@ const MARGIN_DAYS = 30;
  */
 export async function fetchWeeklyEventDateTitlesPairs(auth)
 {
-	const startOfDay = tz.zonedTimeToUtc(date.startOfDay(tz.utcToZonedTime(new Date(), TIME_ZONE)), TIME_ZONE);
+	const startOfDay = tz.fromZonedTime(date.startOfDay(tz.toZonedTime(new Date(), TIME_ZONE)), TIME_ZONE);
 
 	const events = (await calendar.calendar({ version: 'v3', auth }).events.list({
 		calendarId: CALENDAR_ID,

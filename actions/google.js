@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import date from 'date-fns';
+import * as date from 'date-fns';
 import * as tz from 'date-fns-tz';
 import calendar from '@googleapis/calendar';
 import drive from '@googleapis/drive';
@@ -96,7 +96,7 @@ export async function fetchPicture(auth, previousPicture = null)
 		.filter(file => FILENAME_PATTERN.test(file.name))
 		.sort((a, b) => a.name.localeCompare(b.name));
 
-	const file = files[(date.getDate(tz.utcToZonedTime(new Date(), TIME_ZONE)) - 1) % files.length];
+	const file = files[(date.getDate(tz.toZonedTime(new Date(), TIME_ZONE)) - 1) % files.length];
 
 	return {
 		stream: !previousPicture || file.md5Checksum !== hashMD5(previousPicture)
