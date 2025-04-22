@@ -17,10 +17,6 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - name: メインブランチへ60日間コミットがないと、スケジュールされたワークフローが停止するのを防止
-              # https://docs.github.com/actions/managing-workflow-runs/disabling-and-enabling-a-workflow
-              uses: gautamkrishnar/keepalive-workflow@995aec69bb3f2b45b20f4e107907992c8715086d #v2.0.8
-
             - name: 更新チェック用のキャッシュデータを取得
               uses: dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615 #v2.27.0
               with:
