@@ -20,13 +20,13 @@ const cacheTextPath = path.join(cacheDataFolderPath, 'text.json');
 let cachePicture;
 try {
 	cachePicture = await fs.readFile(cachePicturePath);
-} catch (exception) {
+} catch (exception) { //eslint-disable-line no-unused-vars
 	// ファイルが存在しない場合
 }
 let cacheText;
 try {
 	cacheText = JSON.parse(await fs.readFile(cacheTextPath, {encoding: 'utf-8'}));
-} catch (exception) {
+} catch (exception) { //eslint-disable-line no-unused-vars
 	// ファイルが存在しない場合
 }
 
@@ -39,7 +39,7 @@ if (!updated) {
 	// キャッシュが存在し、絵柄の更新がなければ
 	try {
 		assert.deepStrictEqual(Array.from(dateTitlesPairs), cacheText);
-	} catch (exception) {
+	} catch (exception) { //eslint-disable-line no-unused-vars
 		// 日時・イベント名の更新があれば
 		updated = true;
 	}
@@ -60,7 +60,7 @@ if (updated) {
 
 	try {
 		await fs.mkdir(cacheDataFolderPath);
-	} catch (exception) {
+	} catch (exception) { //eslint-disable-line no-unused-vars
 		// すでにフォルダが存在する場合
 	}
 
@@ -170,7 +170,7 @@ if (updated) {
 
 	try {
 		await fs.mkdir(pagesFolderPath);
-	} catch (exception) {
+	} catch (exception) { //eslint-disable-line no-unused-vars
 		// ローカルデバッグで、すでにフォルダが存在する場合
 	}
 
