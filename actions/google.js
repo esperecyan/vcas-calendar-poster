@@ -3,7 +3,7 @@ import * as date from 'date-fns';
 import * as tz from 'date-fns-tz';
 import calendar from '@googleapis/calendar';
 import drive from '@googleapis/drive';
-import { TIME_ZONE } from './calendar.js';
+import {TIME_ZONE} from './calendar.js';
 
 export const FILENAME_PATTERN = /^[0-9]+(?:-[0-9]+)? (.+)\.[a-z]+$/iu;
 
@@ -32,10 +32,10 @@ export function getAuth()
  */
 async function listEntries(drive, folderId)
 {
-	const entries = [ ];
+	const entries = [];
 	let pageToken;
 	do {
-		const { nextPageToken, files } = (await drive.files.list({
+		const {nextPageToken, files} = (await drive.files.list({
 			q: `'${folderId}' in parents`,
 			fields: 'nextPageToken, files(id, name, md5Checksum)',
 			pageToken,
@@ -54,7 +54,7 @@ async function listEntries(drive, folderId)
  */
 async function fetchFile(drive, fileId)
 {
-	return (await drive.files.get({ fileId: fileId, alt: 'media' }, { responseType: 'stream' })).data;
+	return (await drive.files.get({fileId: fileId, alt: 'media'}, {responseType: 'stream'})).data;
 }
 
 /**
@@ -79,7 +79,7 @@ function hashMD5(file)
  */
 export async function putFile(auth, fileId, mimeType, stream)
 {
-	await drive.drive({ version: 'v3', auth }).files.update({ fileId, media: { mimeType, body: stream } });
+	await drive.drive({version: 'v3', auth}).files.update({fileId, media: {mimeType, body: stream}});
 }
 
 /**
@@ -91,7 +91,7 @@ export async function putFile(auth, fileId, mimeType, stream)
  */
 export async function fetchPicture(auth, previousPicture = null)
 {
-	const drv = drive.drive({ version: 'v3', auth });
+	const drv = drive.drive({version: 'v3', auth});
 	const files = (await listEntries(drv, FOLDER_ID))
 		.filter(file => FILENAME_PATTERN.test(file.name))
 		.sort((a, b) => a.name.localeCompare(b.name));

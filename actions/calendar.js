@@ -6,8 +6,8 @@ export const TIME_ZONE = 'Asia/Tokyo';
 
 const CALENDAR_ID = 'v4hhfbk90aur93dhddd5dmie4g@group.calendar.google.com';
 const DATE_FORMAT
-	= new Intl.DateTimeFormat('ja', { timeZone: TIME_ZONE, month: 'numeric', day: 'numeric', weekday: 'short' });
-const TIME_FORMAT = new Intl.DateTimeFormat('ja', { timeZone: TIME_ZONE, hour: '2-digit', minute: '2-digit' });
+	= new Intl.DateTimeFormat('ja', {timeZone: TIME_ZONE, month: 'numeric', day: 'numeric', weekday: 'short'});
+const TIME_FORMAT = new Intl.DateTimeFormat('ja', {timeZone: TIME_ZONE, hour: '2-digit', minute: '2-digit'});
 /**
  * 指定日時をまたいで開始、終了するイベントを取得するために、指定した日付の前後に足す日にち。
  */
@@ -22,20 +22,20 @@ export async function fetchWeeklyEventDateTitlesPairs(auth)
 {
 	const startOfDay = tz.fromZonedTime(date.startOfDay(tz.toZonedTime(new Date(), TIME_ZONE)), TIME_ZONE);
 
-	const events = (await calendar.calendar({ version: 'v3', auth }).events.list({
+	const events = (await calendar.calendar({version: 'v3', auth}).events.list({
 		calendarId: CALENDAR_ID,
 		singleEvents: true,
-		timeMin: date.addDays(startOfDay, - MARGIN_DAYS).toISOString(),
+		timeMin: date.addDays(startOfDay, -MARGIN_DAYS).toISOString(),
 		timeMax: date.addDays(startOfDay, 7 + MARGIN_DAYS).toISOString(),
 	})).data.items;
 
 	const dateTitlesPairs = new Map();
-	const eventIds = [ ];
+	const eventIds = [];
 	for (let i = 0; i < 7; i++) {
 		const currentDateTimestamp = date.addDays(startOfDay, i).getTime();
 		const nextDateTimestamp = date.addDays(currentDateTimestamp, 1).getTime();
 
-		const titles = [ ];
+		const titles = [];
 		for (const event of events.filter(function (event) {
 			if (eventIds.includes(event.id)) {
 				return false;
@@ -54,7 +54,7 @@ export async function fetchWeeklyEventDateTitlesPairs(auth)
 			titles.push((event.startDate.getTime() < currentDateTimestamp
 				? '       ↳'
 				: TIME_FORMAT.format(event.startDate))
-				+ ' ' + event.summary);
+			+ ' ' + event.summary);
 			eventIds.push(event.id);
 		}
 

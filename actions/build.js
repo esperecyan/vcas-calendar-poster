@@ -25,7 +25,7 @@ try {
 }
 let cacheText;
 try {
-	cacheText = JSON.parse(await fs.readFile(cacheTextPath, { encoding: 'utf-8' }));
+	cacheText = JSON.parse(await fs.readFile(cacheTextPath, {encoding: 'utf-8'}));
 } catch (exception) {
 	// ファイルが存在しない場合
 }
@@ -138,7 +138,7 @@ if (updated) {
 	context.font = FONT_SIZE + 'px ' + FONT_FAMILY;
 	context.textBaseline = 'top';
 
-	for (const [ date, titles ] of dateTitlesPairs) {
+	for (const [date, titles] of dateTitlesPairs) {
 		y += PADDING_TOP;
 		context.fillStyle = '#FFFFFF';
 		context.fillText(date, DATE_X, y);
@@ -147,7 +147,7 @@ if (updated) {
 			titles.push(...new Array(2 - titles.length));
 		}
 		context.fillStyle = '#000000';
-		for (const [ i, title ] of titles.entries()) {
+		for (const [i, title] of titles.entries()) {
 			if (i !== 0) {
 				y += LINE_SPACE;
 			}
