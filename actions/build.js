@@ -144,7 +144,7 @@ if (updated) {
 		context.fillText(date, DATE_X, y);
 
 		if (titles.length < 2) {
-			titles.push(...new Array(2 - titles.length));
+			titles.push(...new Array(2 - titles.length).fill(''));
 		}
 		context.fillStyle = '#000000';
 		for (const [i, title] of titles.entries()) {
